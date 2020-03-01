@@ -14,20 +14,20 @@ function App() {
     }
   })
 
-  const getFilms = async () => {
+  const getFilms = async (message = '') => {
     let res = await filmService.getAll();
     setFilms(res);
-    setMessage('');
+    setMessage(message);
   }
 
   const addFilm = async (title, year, format, stars) => {
-    await filmService.addFilm({
+    let res = await filmService.addFilm({
       title: title,
       year: year,
       format: format,
       stars: stars
     });
-    getFilms();
+    getFilms(res.data.msg);
   };
 
   const delFilm = async (id) => {

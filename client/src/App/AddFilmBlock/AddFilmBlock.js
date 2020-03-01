@@ -93,7 +93,7 @@ export default function AddFilmBlock({ addFilm, findFilmByFormat, findFilmByTitl
             <div className="mx-auto w-100 btn-group mt-4 center-block border border-white rounded-lg" role="group" aria-label="Basic example">
                 <button type="button" className="btn btn-info col-sm" onClick={saveFilms}>Сохранить фильм</button>
                 <button type="button" className="btn btn-success col-sm" onClick={findFilm}>Найти фильм</button>
-                <button type="button" className="btn btn-danger col-sm" onClick={getFilms}>Обновить список</button>
+                <button type="button" className="btn btn-danger col-sm" onClick={()=>getFilms('')}>Обновить список</button>
                 <button type="button" className="btn btn-warning col-sm" onClick={sortFilms}>Сортировать фильмы</button>
             </div>
         </>

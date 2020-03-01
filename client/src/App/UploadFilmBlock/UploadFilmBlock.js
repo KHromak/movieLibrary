@@ -30,8 +30,9 @@ export default function UploadFilmBlock({ message, setMessage, getFilms }) {
 
             const { fileName } = res.data;
 
-            setMessage(res.data.msg);
-            getFilms();
+            
+            getFilms(res.data.msg);
+            // setMessage(res.data.msg);
 
             return fileName;
 

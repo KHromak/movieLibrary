@@ -9,7 +9,8 @@ export default {
   },
 
   addFilm: async (film) => {
-    await axios.post(`/api/films`, film);
+    let res = await axios.post(`/api/films`, film);
+    return res;
   },
 
   deleteFilm: async (id) => {

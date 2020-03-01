@@ -1,4 +1,4 @@
-// add to db information
+// template
 
 const mongoose = require('mongoose');
 const {Schema} = mongoose;

@@ -13,10 +13,7 @@ module.exports = (app) => {
   // Add film
   app.post(`/api/films`, async (req, res) => {
     let films = await Films.create(req.body);
-    return res.status(201).send({
-      error: false,
-      films
-    })
+    return res.status(201).json({ msg: 'фильм сохранен в базу данных' })
   });
 
   // Delete
