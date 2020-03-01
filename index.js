@@ -9,23 +9,15 @@ const app = express();
 
 // connect database Films
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost:27017/Films`);
+mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost:27017/Films`, { 
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 app.use(bodyParser.json());
-require('./routes/filmRoutes')(app);
-
 app.use(fileUpload());
 
-app.post(`/api/upload`, async (req, res) => {
-  const file = req.files.file;
-
-  if (!file) {
-    return res.status(400).json({ msg: 'No file uploaded' })
-  }
-
-  let text = file.data.toString();
-
-});
+require('./routes/filmRoutes')(app);
 
 // listening port
 const PORT = process.env.PORT || 5000;

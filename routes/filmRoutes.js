@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Films = mongoose.model('Films');
-// const express = require('express');
-// const fs = require('fs');
+const filmsParser = require('../filmsParser');
 
 module.exports = (app) => {
 
@@ -18,33 +17,37 @@ module.exports = (app) => {
       error: false,
       films
     })
-  })
+  });
 
   // Delete
-  // app.delete(`/api/films`, async (req, res) => {
-  //   let films = await Films.findByIdAndDelete(req.query.id);
-  //   return res.status(202).send({
-  //     error: false,
-  //     films
-  //   })
-  // })
-
   app.delete(`/api/films/:id`, async (req, res) => {
     let films = await Films.findByIdAndDelete(req.params.id);
     return res.status(202).send({
       error: false,
       films
     })
-  })
+  });
 
   // Find
   app.get(`/api/film/find`, async (req, res) => {
     let findedFilm = await Films.find(req.query);
     res.status(200).send(findedFilm);
-  })
+  });
 
-  // Upload
-
-
-
+  //Upload
+  app.post(`/api/upload`, async (req, res) => {
+    if (!req.files) {
+      return res.status(400).json({ msg: 'файл не загрузился, код ошибки 400' })
+    }
+    try {
+      let file = req.files.file;
+      let films = filmsParser(file);
+      for (let film of films) {
+        await Films.create(film);
+      }
+      return res.status(200).json({ msg: 'файл загружен на сервер' })
+    } catch (error) {
+      return res.status(400).json({ msg: 'файл не загрузился, код ошибки 400' })
+    }
+  });
 }

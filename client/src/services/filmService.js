@@ -1,6 +1,5 @@
-// Send query from frontend
+// Send query from client
 import axios from 'axios';
-
 
 export default {
 
@@ -10,15 +9,11 @@ export default {
   },
 
   addFilm: async (film) => {
-    let add = await axios.post(`/api/films`, film);
+    await axios.post(`/api/films`, film);
   },
 
-  // deleteFilm: async (film) => {
-  //   let res = await axios.delete(`/api/films`, { params: { id: film } });
-  // },
-
   deleteFilm: async (id) => {
-    let res = await axios.delete(`/api/films/${id}`);
+    await axios.delete(`/api/films/${id}`);
   },
 
   sortFilms: async () => {
@@ -27,29 +22,18 @@ export default {
     return sortedFilms;
   },
 
-  findFilmByName: async (params) => {
+  findFilm: async (params) => {
     let findedFilm = await axios.get(`api/film/find`, { params });
     return findedFilm.data || [];
   },
 
-  // uploadFile: async (formData) => {
-  //   console.log(formData, "film gotov k otpravke")
-  //   try{
-  //     const res = await axios.post('/api/upload', formData, {
-  //       headers: {
-  //         'Content-Type': 'text/plain'
-  //       },
-  //     });
-
-  //     const { fileName, filePath } = res.data;
-  //     console.log(res.data);
-  //     console.log(JSON.parse(res.data));
-
-  //     return fileName;
-
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
+  uploadFile: async (params) => {
+    let res = await axios.post('/api/upload', params.formData, {
+      headers: {
+        'Content-Type': 'text/plain'
+      },
+      onUploadProgress: params.onUploadProgress
+    });    
+    return res;
+  }
 }

@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import filmService from './services/filmService';
-import AddFilmBlock from "./AddFilmBlock";
-import TableBlock from "./TableBlock";
-import UploadFilmBlock from "./UploadFilmBlock";
-
+import filmService from '../services/filmService';
+import AddFilmBlock from "./AddFilmBlock/AddFilmBlock";
+import TableBlock from "./TableBlock/TableBlock";
+import UploadFilmBlock from "./UploadFilmBlock/UploadFilmBlock";
 
 function App() {
   const [films, setFilms] = useState(null);
   const [message, setMessage] = useState('');
-  // const [file, setFile] = useState('');
 
   useEffect(() => {
     if (!films) {
@@ -18,8 +16,8 @@ function App() {
 
   const getFilms = async () => {
     let res = await filmService.getAll();
-    console.log(res);
     setFilms(res);
+    setMessage('');
   }
 
   const addFilm = async (title, year, format, stars) => {
@@ -42,17 +40,22 @@ function App() {
     setFilms(sortedFilms);
   };
 
-  const findFilmByName = async (title) => {
-    const findedFilm = await filmService.findFilmByName({ title: title });
+  const findFilmByTitle = async (title) => {
+    const findedFilm = await filmService.findFilm({ title: title });
     setFilms(findedFilm);
   };
+
+  const findFilmByStar = async (star) => {
+    const findedStars = await filmService.findFilm({ stars: star });
+    setFilms(findedStars);
+  }
 
   return (
     <div className="container mt-4 jumbotron">
       <h4 className='display-4 text-center mb-4'>Movie Library</h4>
-      <UploadFilmBlock message={message} setMessage={setMessage}/>
-      <TableBlock films={films} delFilm={delFilm} />
-      <AddFilmBlock addFilm={addFilm} findFilmByName={findFilmByName} getFilms={getFilms} sortFilms={sortFilms} />
+      <UploadFilmBlock message={message} setMessage={setMessage} getFilms={getFilms}/>
+      <TableBlock films={films} delFilm={delFilm} setMessage={setMessage} />
+      <AddFilmBlock addFilm={addFilm} findFilmByTitle={findFilmByTitle} setMessage={setMessage} findFilmByStar={findFilmByStar} getFilms={getFilms} sortFilms={sortFilms} />
     </div>
   );
 }

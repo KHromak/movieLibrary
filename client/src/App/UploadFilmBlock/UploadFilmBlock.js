@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
-import filmService from './services/filmService';
-import axios from 'axios';
-import Message from './Message';
-import Progress from './Progress';
+import React, { useState } from "react";
+import Message from './Message/Message';
+import Progress from './Progress/Progress';
+import filmService from "../../services/filmService";
 
-export default function UploadFilmBlock({ message, setMessage }) {
+export default function UploadFilmBlock({ message, setMessage, getFilms }) {
 
     const [file, setFile] = useState('');
     const [fileName, setFileName] = useState('Загрузите библиотеку фильмов (.txt)');
-    
     const [uploadPercentage, setUploadPercentage] = useState(0);
 
     const onChange = e => {
@@ -22,23 +20,18 @@ export default function UploadFilmBlock({ message, setMessage }) {
         formData.append('file', file);
 
         try {
-            const res = await axios.post('/api/upload', formData, {
-                headers: {
-                    'Content-Type': 'text/plain'
-                },
-
-                onUploadProgress: ProgressEvent => {
-                    setUploadPercentage(parseInt(Math.round(ProgressEvent.loaded * 100) / ProgressEvent.total))
-
+            let res = await filmService.uploadFile({
+                formData,
+                onUploadProgress: progress => {
+                    setUploadPercentage(parseInt(Math.round(progress.loaded * 100) / progress.total))
                     setTimeout(() => setUploadPercentage(0), 10000)
                 }
             });
 
             const { fileName } = res.data;
-            console.log(res.data);
-            // console.log(JSON.parse(res.data));
 
-            setMessage('Файл загружен');
+            setMessage(res.data.msg);
+            getFilms();
 
             return fileName;
 
@@ -54,7 +47,7 @@ export default function UploadFilmBlock({ message, setMessage }) {
                 <div className="custom-file mb-4">
                     <input className="custom-file-input" id="customFile" type='file' onChange={onChange}></input>
                     <label className="custom-file-label" htmlFor="customFile">{fileName}</label>
-                    <Progress percentage={uploadPercentage}/>
+                    <Progress percentage={uploadPercentage} />
                     <input type='submit' value='Upload' className="btn btn-primary btn-block mt-4"></input>
                 </div>
             </form>

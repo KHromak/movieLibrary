@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const TableBlock = ({ films, delFilm }) => {
+export const TableBlock = ({ films, delFilm, setMessage }) => {
 
     const myCustomScrollbar = {
         position: 'relative',
@@ -26,8 +26,6 @@ export const TableBlock = ({ films, delFilm }) => {
         );
     };
 
-
-
     return (
         <div className="table-wrapper-scroll-y my-custom-scrollbar mt-2" style={myCustomScrollbar}>
             <table className="table table-striped mb-0">
@@ -45,9 +43,7 @@ export const TableBlock = ({ films, delFilm }) => {
                     {(films && films.length > 0) ? (
                         films.map((film, index) => renderFilms(film, index))
                     ) : (
-                            <tr>
-                                <td>Фильмы не найдены</td>
-                            </tr>
+                        setMessage('Фильмы не найдены')
                         )}
 
                 </tbody>
