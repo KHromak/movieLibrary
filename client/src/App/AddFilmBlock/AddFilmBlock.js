@@ -88,7 +88,7 @@ export default function AddFilmBlock({ addFilm, findFilmByFormat, findFilmByTitl
                 <input type="text" aria-label="Film title" placeholder="Фильм" className="form-control col-sm" ref={newFilmTitle}></input>
                 <input type="number" min="1900" max="2020" aria-label="Film format" placeholder="Год" className="form-control col-sm" ref={newFilmYear}></input>
                 <SelectFilmType filmFormat={filmFormat} setFilmFormat={setFilmFormat} />
-                <input type="text" aria-label="Film stars" placeholder="Актер" className="form-control col-sm" ref={newFilmStars}></input>
+                <input type="text" aria-label="Film stars" placeholder="Актеры" className="form-control col-sm" ref={newFilmStars}></input>
             </div>
             <div className="mx-auto w-100 btn-group mt-4 center-block border border-white rounded-lg" role="group" aria-label="Basic example">
                 <button type="button" className="btn btn-info col-sm" onClick={saveFilms}>Сохранить фильм</button>
