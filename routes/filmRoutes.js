@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Films = mongoose.model('Films');
-const filmsParser = require('../filmsParser');
+const filmsParser = require('../filmsParser/filmsParser');
 
 module.exports = (app) => {
 
