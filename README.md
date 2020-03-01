@@ -48,7 +48,7 @@ $ brew install mongodb-community@4.2
 установка для Windows [https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/]
 установка для Linux [https://docs.mongodb.com/manual/administration/install-on-linux/]
 
-3. Создайте базу Films:
+3. Создайте таблицу Films:
 
 ```sh
 $ mongo
