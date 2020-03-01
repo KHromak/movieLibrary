@@ -41,13 +41,23 @@ function App() {
   };
 
   const findFilmByTitle = async (title) => {
-    const findedFilm = await filmService.findFilm({ title: title });
-    setFilms(findedFilm);
+    const findedByTitle = await filmService.findFilm({ title: title });
+    setFilms(findedByTitle);
   };
 
   const findFilmByStar = async (star) => {
-    const findedStars = await filmService.findFilm({ stars: star });
-    setFilms(findedStars);
+    const findedByStars = await filmService.findFilm({ stars: star });
+    setFilms(findedByStars);
+  };
+
+  const findFilmByYear = async (year) => {
+    const findedByYear = await filmService.findFilm({ year: year });
+    setFilms(findedByYear);
+  }
+
+  const findFilmByFormat = async (format) => {
+    const findedByFormat = await filmService.findFilm({ format: format });
+    setFilms(findedByFormat);
   }
 
   return (
@@ -55,7 +65,7 @@ function App() {
       <h4 className='display-4 text-center mb-4'>Movie Library</h4>
       <UploadFilmBlock message={message} setMessage={setMessage} getFilms={getFilms}/>
       <TableBlock films={films} delFilm={delFilm} setMessage={setMessage} />
-      <AddFilmBlock addFilm={addFilm} findFilmByTitle={findFilmByTitle} setMessage={setMessage} findFilmByStar={findFilmByStar} getFilms={getFilms} sortFilms={sortFilms} />
+      <AddFilmBlock addFilm={addFilm} findFilmByTitle={findFilmByTitle} findFilmByYear={findFilmByYear} findFilmByFormat={findFilmByFormat} setMessage={setMessage} findFilmByStar={findFilmByStar} getFilms={getFilms} sortFilms={sortFilms} />
     </div>
   );
 }

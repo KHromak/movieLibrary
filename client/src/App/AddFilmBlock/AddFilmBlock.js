@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SelectFilmType from './SelectFilmType/SelectFilmType'
 
-export default function AddFilmBlock({ addFilm, findFilmByTitle, getFilms, sortFilms, findFilmByStar, setMessage }) {
+export default function AddFilmBlock({ addFilm, findFilmByFormat, findFilmByTitle, findFilmByYear, getFilms, sortFilms, findFilmByStar, setMessage }) {
 
     let newFilmYear = React.createRef();
     let newFilmTitle = React.createRef();
@@ -22,6 +22,7 @@ export default function AddFilmBlock({ addFilm, findFilmByTitle, getFilms, sortF
         }
 
         if (!title || !year || !format || !stars) {
+            setMessage('Заполните поля для добавления фильма');
         } else {
             addFilm(title, year, format, starsFromStringToArray(stars));
         }
@@ -30,26 +31,53 @@ export default function AddFilmBlock({ addFilm, findFilmByTitle, getFilms, sortF
     let findFilm = () => {
         const title = newFilmTitle.current.value;
         const star = newFilmStars.current.value;
+        const year = newFilmYear.current.value;
+        const format = filmFormat;
+        const messageSearchMovie = 'Поиск фильма';
+        const messageSearchActor = 'Поиск по актеру';
+        const messageSearchYear = 'Поиск по году';
+        const messageSearchFormat = 'Поиск по формату записи';
+        const messageAlertFillOneField = 'для поиска заполните только одно поле';
+        const messageAlertSelectField = 'Заполните поле для поиска (Актер / Фильм / Год)';
 
         if (title) {
-            if (star) {
-                setMessage('для поиска заполните только одно поле');
+            if (star || year) {
+                setMessage(messageAlertFillOneField);
             }
             else {
-                setMessage('Поиск фильма');
+                setMessage(messageSearchMovie);
                 findFilmByTitle(title);
             }
         }
-        else {
-            if (star) {
-                setMessage('Поиск актера');
-                findFilmByStar(star);
+        else if (star) {
+            if (title || year || format) {
+                setMessage(messageAlertFillOneField);
             }
             else {
-                setMessage('Заполните поле для поиска (Актер / Фильм)');
+                setMessage(messageSearchActor);
+                findFilmByStar(star);
             }
+        } else if (year) {
+            if (title || star || format) {
+                setMessage(messageAlertFillOneField);
+            }
+            else {
+                setMessage(messageSearchYear);
+                findFilmByYear(year);
+            }
+        } else if (format) {
+            if (title || star || year) {
+                setMessage(messageAlertFillOneField);
+            }
+            else {
+                setMessage(messageSearchFormat);
+                findFilmByFormat(format);
+            }
+        } else {
+            setMessage(messageAlertSelectField);
         }
     }
+
 
     return (
         <>
