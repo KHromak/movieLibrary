@@ -12,7 +12,7 @@ export const SelectFilmType = ({ filmFormat, setFilmFormat }) => {
             <option value="">Формат</option>
             <option value="VHS">VHS</option>
             <option value="DVD">DVD</option>
-            <option value="Blue-Ray">Blue-Ray</option>
+            <option value="Blu-Ray">Blu-Ray</option>
         </select>
     )
 }
