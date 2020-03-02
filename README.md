@@ -45,7 +45,7 @@ $ brew install node
 ```
 проверить версию:
 ```sh
-$ -v
+$ node -v
 ```
 
 2. Установите базу данных MongoDB (macOS), 
