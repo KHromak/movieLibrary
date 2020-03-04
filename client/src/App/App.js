@@ -5,8 +5,13 @@ import TableBlock from "./TableBlock/TableBlock";
 import UploadFilmBlock from "./UploadFilmBlock/UploadFilmBlock";
 
 function App() {
+
+  const blueAlertColor = "alert alert-info alert-dismissible fade show";
+  const redAlertColor = "alert alert-danger alert-dismissible fade show";
+
   const [films, setFilms] = useState(null);
   const [message, setMessage] = useState('');
+  const [alertColor, setAlertColor] = useState(blueAlertColor);
 
   useEffect(() => {
     if (!films) {
@@ -17,6 +22,7 @@ function App() {
   const getFilms = async (message = '') => {
     let res = await filmService.getAll();
     setFilms(res);
+    setAlertColor(blueAlertColor);
     setMessage(message);
   }
 
@@ -63,9 +69,9 @@ function App() {
   return (
     <div className="container mt-4 jumbotron">
       <h4 className='display-4 text-center mb-4'>Movie Library</h4>
-      <UploadFilmBlock message={message} setMessage={setMessage} getFilms={getFilms}/>
+      <UploadFilmBlock message={message} setMessage={setMessage} getFilms={getFilms} alertColor={alertColor}/>
       <TableBlock films={films} delFilm={delFilm} setMessage={setMessage} />
-      <AddFilmBlock addFilm={addFilm} findFilmByTitle={findFilmByTitle} findFilmByYear={findFilmByYear} findFilmByFormat={findFilmByFormat} setMessage={setMessage} findFilmByStar={findFilmByStar} getFilms={getFilms} sortFilms={sortFilms} />
+      <AddFilmBlock setAlertColor={setAlertColor} addFilm={addFilm} findFilmByTitle={findFilmByTitle} findFilmByYear={findFilmByYear} findFilmByFormat={findFilmByFormat} setMessage={setMessage} findFilmByStar={findFilmByStar} getFilms={getFilms} sortFilms={sortFilms} />
     </div>
   );
 }
