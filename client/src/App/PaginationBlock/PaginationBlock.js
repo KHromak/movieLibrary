@@ -1,9 +1,14 @@
-import React,{ useEffect } from 'react';
+import React, { useState } from 'react';
 
-const PaginationBlock = ({ getFilms, currentPage, setCurrentPage, filmListSize, pageSizeParamsObject, lastPage }) => {
+const PaginationBlock = ({ getFilms, currentPage, setCurrentPage, filmListSize, setFilmListSize, lastPage }) => {
+
+    const paginationBlockStyle = {
+        display: 'flex',
+        justifyContent: 'space-between'
+    }
 
     const nextPageClick = async () => {
-        if(currentPage >= lastPage) return;
+        if (currentPage >= lastPage) return;
         setCurrentPage(++currentPage);
         await getFilms('', { page: currentPage, size: filmListSize })
     }
@@ -14,27 +19,25 @@ const PaginationBlock = ({ getFilms, currentPage, setCurrentPage, filmListSize, 
         await getFilms('', { page: currentPage, size: filmListSize })
     }
 
-    const numPageClick = async (numPage) => {
-        if (numPage === 0 || currentPage >= lastPage) return;
-        setCurrentPage(numPage);
-        await getFilms('', pageSizeParamsObject)
-    }
-
-    const lastPageClick = async (lastPage) => {
-        setCurrentPage(lastPage);
-        await getFilms('', { page: lastPage, size: filmListSize })
+    const setListSize = async (size) => {
+        setFilmListSize(size);
+        await getFilms('', { page: 0, size: size });
+        setCurrentPage(0);
     }
 
     return (
         <div>
-            <nav aria-label="Pagination" className="mt-3">
+            <nav aria-label="Pagination" className="mt-3" style={paginationBlockStyle}>
                 <ul className="pagination">
-                    <li className="page-item"><div onClick={() => prevPageClick()} className="page-link" >Previous</div></li>
-                    <li className="page-item"><div onClick={() => numPageClick(currentPage)} className="page-link" >{currentPage + 1}</div></li>
-                    <li className="page-item"><div onClick={() => numPageClick(currentPage + 1)} className="page-link" >{currentPage + 2}</div></li>
-                    <li className="page-item"><div onClick={() => numPageClick(currentPage + 2)} className="page-link" >{currentPage + 3}</div></li>
-                    <li className="page-item"><div onClick={() => nextPageClick()} className="page-link" >Next</div></li>
-    <li className="page-item"><div onClick={() => lastPageClick(lastPage)} className="page-link" >Last Page({lastPage})</div></li>
+                    <li className="page-item"><div onClick={() => prevPageClick()} className="page-link">	&#8592; Prev</div></li>
+                    <li className="block"><div className="input-group-text" >{currentPage + 1}</div></li>
+                    <li className="page-item"><div onClick={() => nextPageClick()} className="page-link">Next &#8594;</div></li>
+                </ul>
+                <ul className="pagination">
+                    <li className="block"><div className="input-group-text" >Films per list:</div></li>
+                    <li className="page-item"><div onClick={() => setListSize(5)} className="page-link">5</div></li>
+                    <li className="page-item"><div onClick={() => setListSize(10)} className="page-link">10</div></li>
+                    <li className="page-item"><div onClick={() => setListSize(20)} className="page-link">20</div></li>
                 </ul>
             </nav>
         </div>

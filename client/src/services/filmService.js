@@ -19,7 +19,8 @@ export default {
 
   sortFilms: async (params) => {
     let allFilms = await axios.get(`/api/films`, { params });
-    let sortedFilms = allFilms.data.sort((a, b) => a.title.localeCompare(b.title));
+    console.log(allFilms, 'sort get this then sort')
+    let sortedFilms = allFilms.data.result.sort((a, b) => a.title.localeCompare(b.title));
     return sortedFilms;
   },
 

@@ -11,9 +11,8 @@ function App() {
   const [message, setMessage] = useState('');
   const [alertColor, setAlertColor] = useState("alert alert-info alert-dismissible fade show");
   const [currentPage, setCurrentPage] = useState(0);
-  const [filmListSize, setFilmListSize] = useState(5);
   const [lastPage, setLastPage] = useState(0);
-
+  const [filmListSize, setFilmListSize] = useState(5);
   const jumboStyle = { padding: "1rem 2rem" };
   const redAlertColor = "alert alert-danger alert-dismissible fade show";
   const blueAlertColor = "alert alert-info alert-dismissible fade show";
@@ -27,8 +26,8 @@ function App() {
 
   const getFilms = async (message = '', params) => {
     let res = await filmService.getAll(params);
-    setFilms(res);
-    setLastPage(res[0].lastPage)
+    setFilms(res.result);
+    setLastPage(res.totalCount);
     setAlertColor(blueAlertColor);
     setMessage(message);
   };
@@ -49,7 +48,7 @@ function App() {
   };
 
   const sortFilms = async () => {
-    const sortedFilms = await filmService.sortFilms(pageSizeParamsObject);
+    const sortedFilms = await filmService.sortFilms({ page: currentPage, size: filmListSize });
     setFilms(sortedFilms);
   };
 
@@ -89,6 +88,7 @@ function App() {
         currentPage={currentPage}
         filmListSize={filmListSize}
         setCurrentPage={setCurrentPage} 
+        setFilmListSize={setFilmListSize}
         pageSizeParamsObject={pageSizeParamsObject}
         />
       <TableBlock

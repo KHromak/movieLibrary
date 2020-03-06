@@ -12,7 +12,7 @@ export default function AddFilmBlock({
     findFilmByStar,
     findFilmByTitle,
     findFilmByFormat,
-    pageSizeParamsObject 
+    pageSizeParamsObject
 }) {
 
     let newFilmYear = React.createRef();

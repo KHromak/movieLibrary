@@ -7,21 +7,14 @@ module.exports = (app) => {
   // Get all
   app.get(`/api/films`, async (req, res) => {
 
-    // let postsCount;
-    // Films.count({}, function (err, count) {
-    //   postsCount = count;
-    // })
-    
     let totalPosts = await Films.count({}, function (err, count) {
        return count;
     })
 
     let size = parseInt(req.query.size);
     let page = parseInt(req.query.page);
-    let lastPage = parseInt(totalPosts / size);
+    let totalCount = parseInt(totalPosts / size);
     let skip = size * page;
-
-    console.log(lastPage);
 
     try {
       let films = await Films
@@ -37,12 +30,14 @@ module.exports = (app) => {
           title: film.title,
           stars: film.stars,
           index: index + skip,
-          format: film.format,
-          lastPage: lastPage
+          format: film.format
         }
       });
 
-      let filmes = res.status(200).send(result);
+      let filmes = res.status(200).send({
+        result,
+        totalCount
+    });
       return filmes;
     }
     catch (e) {
