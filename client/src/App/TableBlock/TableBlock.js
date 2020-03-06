@@ -9,6 +9,10 @@ export const TableBlock = ({ films, delFilm, setMessage }) => {
         display: 'block'
     }
 
+    const starsListStyle = {
+        marginBottom: '2px'
+    }
+
     const renderFilms = (film, index) => {
         return (
             <tr key={film.id}>
@@ -18,7 +22,7 @@ export const TableBlock = ({ films, delFilm, setMessage }) => {
                 <td>{film.format}</td>
                 <td>
                     {film.stars.map((star, index) =>
-                        <p key={index}>{star}</p>
+                        <p key={index} style={starsListStyle}>{star}</p>
                     )}
                 </td>
                 <td>
