@@ -1,30 +1,35 @@
 import React, { useState, useEffect } from "react";
-import filmService from '../services/filmService';
-import AddFilmBlock from "./AddFilmBlock/AddFilmBlock";
 import TableBlock from "./TableBlock/TableBlock";
+import filmService from "../services/filmService";
+import AddFilmBlock from "./AddFilmBlock/AddFilmBlock";
 import UploadFilmBlock from "./UploadFilmBlock/UploadFilmBlock";
+import PaginationBlock from "./PaginationBlock/PaginationBlock"
 
 function App() {
 
-  const blueAlertColor = "alert alert-info alert-dismissible fade show";
-  const redAlertColor = "alert alert-danger alert-dismissible fade show";
-
   const [films, setFilms] = useState(null);
   const [message, setMessage] = useState('');
-  const [alertColor, setAlertColor] = useState(blueAlertColor);
+  const [alertColor, setAlertColor] = useState("alert alert-info alert-dismissible fade show");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [filmListSize, setFilmListSize] = useState(5);
+
+  const jumboStyle = { padding: "1rem 2rem" };
+  const redAlertColor = "alert alert-danger alert-dismissible fade show";
+  const blueAlertColor = "alert alert-info alert-dismissible fade show";
+  const pageSizeParamsObject = { page: currentPage, size: filmListSize }
 
   useEffect(() => {
     if (!films) {
-      getFilms();
+      getFilms('', pageSizeParamsObject);
     }
-  })
+  });
 
-  const getFilms = async (message = '') => {
-    let res = await filmService.getAll();
+  const getFilms = async (message = '', params) => {
+    let res = await filmService.getAll(params);
     setFilms(res);
     setAlertColor(blueAlertColor);
     setMessage(message);
-  }
+  };
 
   const addFilm = async (title, year, format, stars) => {
     let res = await filmService.addFilm({
@@ -33,16 +38,16 @@ function App() {
       format: format,
       stars: stars
     });
-    getFilms(res.data.msg);
+    getFilms(res.data.msg, pageSizeParamsObject);
   };
 
   const delFilm = async (id) => {
     await filmService.deleteFilm(id);
-    getFilms();
+    getFilms('', pageSizeParamsObject);
   };
 
   const sortFilms = async () => {
-    const sortedFilms = await filmService.sortFilms();
+    const sortedFilms = await filmService.sortFilms(pageSizeParamsObject);
     setFilms(sortedFilms);
   };
 
@@ -51,27 +56,54 @@ function App() {
     setFilms(findedByTitle);
   };
 
-  const findFilmByStar = async (star) => {
-    const findedByStars = await filmService.findFilm({ stars: star });
-    setFilms(findedByStars);
-  };
-
   const findFilmByYear = async (year) => {
     const findedByYear = await filmService.findFilm({ year: year });
     setFilms(findedByYear);
-  }
+  };
 
   const findFilmByFormat = async (format) => {
     const findedByFormat = await filmService.findFilm({ format: format });
     setFilms(findedByFormat);
-  }
+  };
+
+  const findFilmByStar = async (star) => {
+    const findedByStars = await filmService.findFilm({ stars: star });
+    console.log(findedByStars, 'findedByStars')
+    setFilms(findedByStars);
+  };
 
   return (
-    <div className="container mt-4 jumbotron">
-      <h4 className='display-4 text-center mb-4'>Movie Library</h4>
-      <UploadFilmBlock message={message} setMessage={setMessage} getFilms={getFilms} alertColor={alertColor}/>
-      <TableBlock films={films} delFilm={delFilm} setMessage={setMessage} />
-      <AddFilmBlock setAlertColor={setAlertColor} addFilm={addFilm} findFilmByTitle={findFilmByTitle} findFilmByYear={findFilmByYear} findFilmByFormat={findFilmByFormat} setMessage={setMessage} findFilmByStar={findFilmByStar} getFilms={getFilms} sortFilms={sortFilms} />
+    <div className="container mt-3 jumbotron" style={jumboStyle}>
+      <UploadFilmBlock
+        message={message}
+        getFilms={getFilms}
+        setMessage={setMessage}
+        alertColor={alertColor} 
+        pageSizeParamsObject={pageSizeParamsObject}
+        />
+      <PaginationBlock
+        getFilms={getFilms}
+        currentPage={currentPage}
+        filmListSize={filmListSize}
+        setCurrentPage={setCurrentPage} 
+        pageSizeParamsObject={pageSizeParamsObject}
+        />
+      <TableBlock
+        films={films}
+        delFilm={delFilm}
+        setMessage={setMessage} />
+      <AddFilmBlock
+        addFilm={addFilm}
+        getFilms={getFilms}
+        sortFilms={sortFilms}
+        setMessage={setMessage}
+        setAlertColor={setAlertColor}
+        findFilmByStar={findFilmByStar}
+        findFilmByYear={findFilmByYear}
+        findFilmByTitle={findFilmByTitle}
+        findFilmByFormat={findFilmByFormat} 
+        pageSizeParamsObject={pageSizeParamsObject}
+        />
     </div>
   );
 }

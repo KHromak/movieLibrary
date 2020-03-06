@@ -3,8 +3,8 @@ import axios from 'axios';
 
 export default {
 
-  getAll: async () => {
-    let res = await axios.get(`/api/films`);
+  getAll: async (params) => {
+    let res = await axios.get(`/api/films`, { params });
     return res.data || [];
   },
 
@@ -17,8 +17,8 @@ export default {
     await axios.delete(`/api/films/${id}`);
   },
 
-  sortFilms: async () => {
-    let allFilms = await axios.get(`/api/films`);
+  sortFilms: async (params) => {
+    let allFilms = await axios.get(`/api/films`, { params });
     let sortedFilms = allFilms.data.sort((a, b) => a.title.localeCompare(b.title));
     return sortedFilms;
   },

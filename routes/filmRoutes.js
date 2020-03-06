@@ -6,14 +6,40 @@ module.exports = (app) => {
 
   // Get all
   app.get(`/api/films`, async (req, res) => {
-    let films = await Films.find();
-    return res.status(200).send(films);
+    let size = parseInt(req.query.size);
+    let page = parseInt(req.query.page);
+    let skip = size * page;
+
+    try {
+      let films = await Films
+        .find()
+        .limit(size)
+        .skip(skip);
+
+      let result = films.map((film, index) => {
+        return {
+          ...film,
+          id: film.id,
+          year: film.year,
+          title: film.title,
+          stars: film.stars,
+          index: index + skip,
+          format: film.format
+        }
+      });
+
+      let filmes = res.status(200).send(result);
+      return filmes;
+    }
+    catch (e) {
+      console.log(e);
+    }
   });
 
   // Add film
   app.post(`/api/films`, async (req, res) => {
     let films = await Films.create(req.body);
-    return res.status(201).json({ msg: 'фильм сохранен в базу данных' })
+    return res.status(201).json({ msg: 'Movie added to the database' })
   });
 
   // Delete
@@ -27,14 +53,27 @@ module.exports = (app) => {
 
   // Find
   app.get(`/api/film/find`, async (req, res) => {
-    let findedFilm = await Films.find(req.query);
-    res.status(200).send(findedFilm);
+
+    let findedFilms = await Films.find(req.query);
+    let result = findedFilms.map((film, index) => {
+      return {
+        ...film,
+        id: film.id,
+        year: film.year,
+        title: film.title,
+        stars: film.stars,
+        index: index,
+        format: film.format
+      }
+    });
+
+    res.status(200).send(result);
   });
 
   //Upload
   app.post(`/api/upload`, async (req, res) => {
     if (!req.files) {
-      return res.status(400).json({ msg: 'файл не загрузился, код ошибки 400' })
+      return res.status(400).json({ msg: 'File upload error (400)' })
     }
     try {
       let file = req.files.file;
@@ -42,9 +81,9 @@ module.exports = (app) => {
       for (let film of films) {
         await Films.create(film);
       }
-      return res.status(200).json({ msg: 'файл загружен на сервер' })
+      return res.status(200).json({ msg: 'Library uploaded on server' })
     } catch (error) {
-      return res.status(400).json({ msg: 'файл не загрузился, код ошибки 400' })
+      return res.status(400).json({ msg: 'File upload error (400)' })
     }
   });
 }
