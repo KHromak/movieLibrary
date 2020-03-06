@@ -12,6 +12,7 @@ function App() {
   const [alertColor, setAlertColor] = useState("alert alert-info alert-dismissible fade show");
   const [currentPage, setCurrentPage] = useState(0);
   const [filmListSize, setFilmListSize] = useState(5);
+  const [lastPage, setLastPage] = useState(0);
 
   const jumboStyle = { padding: "1rem 2rem" };
   const redAlertColor = "alert alert-danger alert-dismissible fade show";
@@ -27,6 +28,7 @@ function App() {
   const getFilms = async (message = '', params) => {
     let res = await filmService.getAll(params);
     setFilms(res);
+    setLastPage(res[0].lastPage)
     setAlertColor(blueAlertColor);
     setMessage(message);
   };
@@ -83,6 +85,7 @@ function App() {
         />
       <PaginationBlock
         getFilms={getFilms}
+        lastPage={lastPage}
         currentPage={currentPage}
         filmListSize={filmListSize}
         setCurrentPage={setCurrentPage} 
