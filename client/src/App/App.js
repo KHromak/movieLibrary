@@ -13,8 +13,8 @@ function App() {
   const [currentPage, setCurrentPage] = useState(0);
   const [lastPage, setLastPage] = useState(0);
   const [filmListSize, setFilmListSize] = useState(5);
+
   const jumboStyle = { padding: "1rem 2rem" };
-  const redAlertColor = "alert alert-danger alert-dismissible fade show";
   const blueAlertColor = "alert alert-info alert-dismissible fade show";
   const pageSizeParamsObject = { page: currentPage, size: filmListSize }
 
@@ -69,7 +69,6 @@ function App() {
 
   const findFilmByStar = async (star) => {
     const findedByStars = await filmService.findFilm({ stars: star });
-    console.log(findedByStars, 'findedByStars')
     setFilms(findedByStars);
   };
 
@@ -79,7 +78,8 @@ function App() {
         message={message}
         getFilms={getFilms}
         setMessage={setMessage}
-        alertColor={alertColor} 
+        alertColor={alertColor}
+        setAlertColor={setAlertColor} 
         pageSizeParamsObject={pageSizeParamsObject}
         />
       <PaginationBlock

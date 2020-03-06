@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import Message from './Message/Message';
 import Progress from './Progress/Progress';
 import filmService from "../../services/filmService";
+import validate from "../../validations/validations";
 
-export default function UploadFilmBlock({ message, setMessage, getFilms, alertColor, pageSizeParamsObject }) {
+export default function UploadFilmBlock({ message, setMessage, getFilms, setAlertColor, alertColor, pageSizeParamsObject }) {
 
     const [file, setFile] = useState('');
     const [fileName, setFileName] = useState('Upload your movie library (.txt)');
     const [uploadPercentage, setUploadPercentage] = useState(0);
+
+    const redAlertColor = "alert alert-danger alert-dismissible fade show";
     
     const headerStyle={
         display: 'flex',
@@ -17,8 +20,13 @@ export default function UploadFilmBlock({ message, setMessage, getFilms, alertCo
     const headingStyle = {'width': "70%"};
 
     const onChange = e => {
-        setFile(e.target.files[0]);
-        setFileName(e.target.files[0].name);
+        if (validate.isFileTypeTxt(e.target.files[0])) {
+            setFile(e.target.files[0]);
+            setFileName(e.target.files[0].name);
+        } else {
+            setAlertColor(redAlertColor);
+            setMessage('Please use file-type .txt for upload');
+        }
     }
 
     const onSubmit = async e => {
