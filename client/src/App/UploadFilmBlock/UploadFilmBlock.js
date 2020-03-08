@@ -42,14 +42,12 @@ export default function UploadFilmBlock({ message, setMessage, getFilms, setAler
                     setTimeout(() => setUploadPercentage(0), 10000)
                 }
             });
-
-            // const { fileName } = res.data;
-
+            setAlertColor(res.data.color);
             getFilms(res.data.msg, pageSizeParamsObject);
-
             return fileName;
 
         } catch (error) {
+            setAlertColor(redAlertColor);
             setMessage('Upload file error');
         }
     }

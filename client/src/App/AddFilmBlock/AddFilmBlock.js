@@ -125,7 +125,7 @@ export default function AddFilmBlock({
                 <input type="text" aria-label="Film title" placeholder="Movie" className="form-control col-sm" ref={newFilmTitle}></input>
                 <input type="number" min="1850" max="2020" aria-label="Film format" placeholder="1850 - 2020 years" className="form-control col-sm" ref={newFilmYear}></input>
                 <SelectFilmType filmFormat={filmFormat} setFilmFormat={setFilmFormat} />
-                <input type="text" aria-label="Film stars" placeholder="Actors" className="form-control col-sm" ref={newFilmStars}></input>
+                <input type="text" aria-label="Film stars" placeholder="Stars" className="form-control col-sm" ref={newFilmStars}></input>
             </div>
             <div className="mx-auto w-100 btn-group mt-3 center-block border border-white rounded-lg" role="group" aria-label="Basic example">
                 <button type="button" className="btn btn-info col-sm" onClick={saveFilms}>Save Movie</button>

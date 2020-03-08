@@ -68,7 +68,7 @@ function App() {
   };
 
   const findFilmByStar = async (star) => {
-    const findedByStars = await filmService.findFilm({ stars: star });
+    const findedByStars = await filmService.findFilmByStar({ stars: star });
     setFilms(findedByStars);
   };
 

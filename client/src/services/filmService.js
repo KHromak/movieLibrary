@@ -28,6 +28,11 @@ export default {
     return findedFilm.data || [];
   },
 
+  findFilmByStar: async (params) => {
+    let findedFilm = await axios.get(`api/film/find/stars`, { params });
+    return findedFilm.data || [];
+  },
+
   uploadFile: async (params) => {
     let res = await axios.post('/api/upload', params.formData, {
       headers: {

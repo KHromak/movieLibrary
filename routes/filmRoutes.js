@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const Films = mongoose.model('Films');
 const filmsParser = require('../filmsParser/filmsParser');
+const uploadsValidator = require('../uploadsValidator/uploadsValidator')
+const redAlertColor = "alert alert-danger alert-dismissible fade show";
+const blueAlertColor = "alert alert-info alert-dismissible fade show";
+
 
 module.exports = (app) => {
 
@@ -62,7 +66,7 @@ module.exports = (app) => {
 
   // Find
   app.get(`/api/film/find`, async (req, res) => {
-
+    console.log(req.query, "req.query")
     let findedFilms = await Films.find(req.query);
     let result = findedFilms.map((film, index) => {
       return {
@@ -79,20 +83,51 @@ module.exports = (app) => {
     res.status(200).send(result);
   });
 
+  // Find by star
+  app.get(`/api/film/find/stars`, async (req, res) => {
+    console.log(req.query, "req.query")
+    let starsRegExp = new RegExp(req.query.stars, 'i');
+    console.log(starsRegExp, "starsRegExp")
+    let findedFilms = await Films.find({stars: { $regex: starsRegExp }});
+    let result = findedFilms.map((film, index) => {
+      return {
+        ...film,
+        id: film.id,
+        year: film.year,
+        title: film.title,
+        stars: film.stars,
+        index: index,
+        format: film.format
+      }
+    });
+
+    res.status(200).send(result);
+  });
+
+
+
+
   //Upload
   app.post(`/api/upload`, async (req, res) => {
     if (!req.files) {
-      return res.status(400).json({ msg: 'File upload error (400)' })
+      return res.status(400).json({ msg: 'File upload error (400)', color:  redAlertColor})
     }
-    try {
-      let file = req.files.file;
-      let films = filmsParser(file);
-      for (let film of films) {
-        await Films.create(film);
+    
+    let isValid = uploadsValidator(req.files.file);
+    if (isValid){
+      try {
+        let file = req.files.file;
+        let films = filmsParser(file);
+        for (let film of films) {
+          await Films.create(film);
+        }
+        return res.status(200).json({ msg: 'Library uploaded on server' , color:  blueAlertColor})
+      } catch (error) {
+        return res.status(400).json({ msg: 'File upload error (400)', color:  redAlertColor })
       }
-      return res.status(200).json({ msg: 'Library uploaded on server' })
-    } catch (error) {
-      return res.status(400).json({ msg: 'File upload error (400)' })
+    }
+    else {
+      return res.status(400).json({ msg: 'Please upload valid file', color:  redAlertColor})
     }
   });
 }
