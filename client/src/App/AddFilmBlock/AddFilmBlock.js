@@ -23,6 +23,13 @@ export default function AddFilmBlock({
 
     const blueAlertColor = "alert alert-info alert-dismissible fade show";
     const redAlertColor = "alert alert-danger alert-dismissible fade show";
+    const messageAlertChooseYear = 'Please choose year in period from 1850 to 2020 years';
+    const messageSearchYear = 'Search movie by year';
+    const messageSearchMovie = 'Search movie by title';
+    const messageSearchActor = 'Search movie by actor';
+    const messageSearchFormat = 'Search movie by format';
+    const messageAlertSelectField = 'Please fill one field for search by (Title / Year / Format / Actor)';
+    const messageAlertFillOneField = 'Please fill only one field for search';
 
     let saveFilms = () => {
 
@@ -39,13 +46,15 @@ export default function AddFilmBlock({
             var starsArray = string.split(',');
             return starsArray;
         }
+
         if (isFormsEmpty) {
             setAlertColor(redAlertColor);
             setMessage('Please fill all fields to add movie');
         }
         else if (isWrongYear) {
+            console.log("red")
             setAlertColor(redAlertColor);
-            setMessage('Please choose year in period from 1850 to 2020 years');
+            setMessage(messageAlertChooseYear);
         }
         else if (isWrongActorName) {
             setAlertColor(redAlertColor);
@@ -61,12 +70,9 @@ export default function AddFilmBlock({
         const year = newFilmYear.current.value;
         const star = newFilmStars.current.value;
         const title = newFilmTitle.current.value;
-        const messageSearchYear = 'Search movie by year';
-        const messageSearchMovie = 'Search movie by title';
-        const messageSearchActor = 'Search movie by actor';
-        const messageSearchFormat = 'Search movie by format';
-        const messageAlertSelectField = 'Please fill one field for search by (Title / Year / Format / Actor)';
-        const messageAlertFillOneField = 'Please fill only one field for search';
+        
+        
+        let isWrongYear = validate.isWrongYear(year);
 
 
         if (title) {
@@ -94,6 +100,10 @@ export default function AddFilmBlock({
             if (title || star || format) {
                 setAlertColor(redAlertColor);
                 setMessage(messageAlertFillOneField);
+            } 
+            else if (isWrongYear) {
+                setAlertColor(redAlertColor);
+                setMessage(messageAlertChooseYear);
             }
             else {
                 setAlertColor(blueAlertColor);
