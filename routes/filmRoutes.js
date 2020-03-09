@@ -58,7 +58,19 @@ module.exports = (app) => {
       year: film.year
     });
 
-    if (foundFilms.length > 0) {
+    let isDuplicateStars = stars => {
+      var counts = [];
+      for(var i = 0; i <= stars.length; i++) {
+          if(counts[stars[i]] === undefined) {
+              counts[stars[i]] = 1;
+          } else {
+              return true;
+          }
+      }
+      return false;
+  }
+
+    if (foundFilms.length > 0 || isDuplicateStars(film.stars)) {
       return res.status(400).json({ msg: 'Movie already exists', color: redAlertColor });
     }
 

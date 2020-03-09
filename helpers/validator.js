@@ -52,7 +52,7 @@ module.exports = (file) => {
             }
         }
         else if (line === '' && isFilmFilled(film)) {           
-            let exists = films.find(x => x.title === film.title && x.year === film.year)
+            let exists = films.find(x => x.title === film.title && x.year === film.year);
             if (!exists) {
                 films.push(film);
                 film = initFilm();

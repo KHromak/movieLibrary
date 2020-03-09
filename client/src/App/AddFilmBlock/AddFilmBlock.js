@@ -23,11 +23,11 @@ export default function AddFilmBlock({
 
     const blueAlertColor = "alert alert-info alert-dismissible fade show";
     const redAlertColor = "alert alert-danger alert-dismissible fade show";
-    const messageAlertChooseYear = 'Please choose year in period from 1850 to 2020 years';
     const messageSearchYear = 'Search movie by year';
     const messageSearchMovie = 'Search movie by title';
     const messageSearchActor = 'Search movie by actor';
     const messageSearchFormat = 'Search movie by format';
+    const messageAlertChooseYear = 'Please choose year in period from 1850 to 2020 years';
     const messageAlertSelectField = 'Please fill one field for search by (Title / Year / Format / Actor)';
     const messageAlertFillOneField = 'Please fill only one field for search';
 
@@ -38,12 +38,12 @@ export default function AddFilmBlock({
         const stars = newFilmStars.current.value;
         const format = filmFormat;
 
-        let isWrongActorName = validate.isStringContainNumber(stars);
         let isWrongYear = validate.isWrongYear(year);
         let isFormsEmpty = validate.isFormsEmpty(title, year, format, stars);
+        let isWrongActorName = validate.isStringContainNumber(stars);
 
         let starsFromStringToArray = (string) => {
-            var starsArray = string.split(',');
+            var starsArray = string.split(', ');
             return starsArray;
         }
 
@@ -65,10 +65,10 @@ export default function AddFilmBlock({
     };
 
     let findFilm = () => {
-        const format = filmFormat;
         const year = newFilmYear.current.value;
         const star = newFilmStars.current.value;
         const title = newFilmTitle.current.value;
+        const format = filmFormat;
         
         
         let isWrongYear = validate.isWrongYear(year);
