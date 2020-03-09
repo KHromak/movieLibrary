@@ -42,9 +42,9 @@ function App() {
     getFilms(res.data.msg, pageSizeParamsObject);
   };
 
-  const delFilm = async (id) => {
+  const deleteFilm = async (id) => {
     await filmService.deleteFilm(id);
-    getFilms('', pageSizeParamsObject);
+    getFilms('Movie deleted', pageSizeParamsObject);
   };
 
   const sortFilms = async () => {
@@ -53,23 +53,23 @@ function App() {
   };
 
   const findFilmByTitle = async (title) => {
-    const findedByTitle = await filmService.findFilm({ title: title });
-    setFilms(findedByTitle);
+    const foundByTitle = await filmService.findFilm({ title: title });
+    setFilms(foundByTitle);
   };
 
   const findFilmByYear = async (year) => {
-    const findedByYear = await filmService.findFilm({ year: year });
-    setFilms(findedByYear);
+    const foundByYear = await filmService.findFilm({ year: year });
+    setFilms(foundByYear);
   };
 
   const findFilmByFormat = async (format) => {
-    const findedByFormat = await filmService.findFilm({ format: format });
-    setFilms(findedByFormat);
+    const foundByFormat = await filmService.findFilm({ format: format });
+    setFilms(foundByFormat);
   };
 
   const findFilmByStar = async (star) => {
-    const findedByStars = await filmService.findFilmByStar({ stars: star });
-    setFilms(findedByStars);
+    const foundByStars = await filmService.findFilm({ stars: star });
+    setFilms(foundByStars);
   };
 
   return (
@@ -93,8 +93,9 @@ function App() {
         />
       <TableBlock
         films={films}
-        delFilm={delFilm}
-        setMessage={setMessage} />
+        deleteFilm={deleteFilm}
+        setMessage={setMessage} 
+        />
       <AddFilmBlock
         addFilm={addFilm}
         getFilms={getFilms}

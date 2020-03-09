@@ -4,7 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 
 
 
-export const TableBlock = ({ films, delFilm, setMessage }) => {
+export const TableBlock = ({ films, deleteFilm, setMessage }) => {
 
     const [filmId, setFilmId] = useState('');
     const [filmYear, setFilmYear] = useState('');
@@ -81,7 +81,7 @@ export const TableBlock = ({ films, delFilm, setMessage }) => {
                         Close
                             </Button>
                     <Button variant="primary" onClick={() => {
-                        delFilm(filmId)
+                        deleteFilm(filmId)
                         handleClose()
                     } }>
                         Delete Movie

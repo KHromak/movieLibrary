@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SelectFilmType from './SelectFilmType/SelectFilmType';
-import validate from '../../validations/validations'
+import validate from '../../validators/validators'
 
 export default function AddFilmBlock({
     addFilm,

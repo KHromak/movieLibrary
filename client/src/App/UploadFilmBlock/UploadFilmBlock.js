@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Message from './Message/Message';
 import Progress from './Progress/Progress';
 import filmService from "../../services/filmService";
-import validate from "../../validations/validations";
+import validate from "../../validators/validators";
 
 export default function UploadFilmBlock({ message, setMessage, getFilms, setAlertColor, alertColor, pageSizeParamsObject }) {
 
