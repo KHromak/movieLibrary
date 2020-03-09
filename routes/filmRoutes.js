@@ -71,7 +71,7 @@ module.exports = (app) => {
   }
 
     if (foundFilms.length > 0 || isDuplicateStars(film.stars)) {
-      return res.status(400).json({ msg: 'Movie already exists', color: redAlertColor });
+      return res.status(201).json({ msg: 'Movie (Star) already exists', color: redAlertColor });
     }
 
     let films = await Films.create(film);
@@ -121,7 +121,7 @@ module.exports = (app) => {
   //Upload
   app.post(`/api/upload`, async (req, res) => {
     if (!req.files) {
-      return res.status(400).json({ msg: 'File upload error (400)', color: redAlertColor })
+      return res.status(201).json({ msg: 'File upload error (400)', color: redAlertColor })
     }
 
     let isValid = uploadsValidator(req.files.file);
@@ -149,11 +149,11 @@ module.exports = (app) => {
 
         return res.status(200).json({ msg: 'Library uploaded on server', color: blueAlertColor });
       } catch (error) {
-        return res.status(400).json({ msg: 'File upload error (400)', color: redAlertColor });
+        return res.status(201).json({ msg: 'File upload error (400)', color: redAlertColor });
       }
     }
     else {
-      return res.status(400).json({ msg: 'Please upload valid file', color: redAlertColor });
+      return res.status(201).json({ msg: 'Please upload valid file', color: redAlertColor });
     }
   });
 }

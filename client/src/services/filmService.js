@@ -9,7 +9,9 @@ export default {
   },
 
   addFilm: async (film) => {
+    console.log(film, 'find film film film')
     let res = await axios.post(`/api/films`, film);
+    console.log(res, 'find message msg red')
     return res;
   },
 

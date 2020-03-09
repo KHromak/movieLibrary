@@ -40,6 +40,7 @@ function App() {
       stars: stars
     });
     getFilms(res.data.msg, pageSizeParamsObject);
+    setAlertColor(res.data.color);
   };
 
   const deleteFilm = async (id) => {
