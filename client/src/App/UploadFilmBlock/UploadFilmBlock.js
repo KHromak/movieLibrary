@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Message from './Message/Message';
 import Progress from './Progress/Progress';
 import filmService from "../../services/filmService";
-import validate from "../../validators/validators";
+import validator from "../../validators/validators";
 
 export default function UploadFilmBlock({ message, setMessage, getFilms, setAlertColor, alertColor, pageSizeParamsObject }) {
 
@@ -20,12 +20,13 @@ export default function UploadFilmBlock({ message, setMessage, getFilms, setAler
     const headingStyle = {'width': "70%"};
 
     const onChange = e => {
-        if (validate.isFileTypeTxt(e.target.files[0])) {
+        if (validator.isFileTypeTxt(e.target.files[0])) {
+            console.log(e.target.files[0], "e.target.files[0])")
             setFile(e.target.files[0]);
             setFileName(e.target.files[0].name);
         } else {
             setAlertColor(redAlertColor);
-            setMessage('Please use file-type .txt for upload');
+            setMessage('Please use correct .txt file for upload');
             setFile('');
             setFileName('');
         }

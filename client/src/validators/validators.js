@@ -13,7 +13,8 @@ export default {
     },
 
     isFileTypeTxt : (file) => {
-        if(!file || !file.name.length > 0){
+        console.log(file.size, "filesize");
+        if(file.size < 3 || !file || !file.name.length > 0){
             return false;
         }
         return file.name.toLowerCase().endsWith('.txt');
