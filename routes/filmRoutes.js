@@ -66,7 +66,6 @@ module.exports = (app) => {
 
   // Find
   app.get(`/api/film/find`, async (req, res) => {
-    console.log(req.query, "req.query")
     let findedFilms = await Films.find(req.query);
     let result = findedFilms.map((film, index) => {
       return {
@@ -85,9 +84,7 @@ module.exports = (app) => {
 
   // Find by star
   app.get(`/api/film/find/stars`, async (req, res) => {
-    console.log(req.query, "req.query")
     let starsRegExp = new RegExp(req.query.stars, 'i');
-    console.log(starsRegExp, "starsRegExp")
     let findedFilms = await Films.find({stars: { $regex: starsRegExp }});
     let result = findedFilms.map((film, index) => {
       return {

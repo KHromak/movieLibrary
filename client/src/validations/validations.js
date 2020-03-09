@@ -15,18 +15,20 @@ export default {
 
     isFileTypeTxt : (file) => {
         const validFileExtension = '.txt';
-        let fileName = file.name;
-        let fileValidate;
-        if (fileName.length > 0) {
-            fileValidate = false;
-            if(fileName.substr(fileName.length - validFileExtension.length, validFileExtension.length).toLowerCase() == validFileExtension.toLowerCase()){
-                return fileValidate = true;
+        if (file) {
+            let fileName = file.name;
+            let fileValidate;
+            if (fileName.length > 0) {
+                fileValidate = false;
+                if(fileName.substr(fileName.length - validFileExtension.length, validFileExtension.length).toLowerCase() === validFileExtension.toLowerCase()){
+                    return fileValidate = true;
+                }
             }
+            if (!fileValidate) {
+                return false;
+            }
+            return true;
         }
-        if (!fileValidate) {
-            console.log('sorry');
-            return false;
-        }
-        return true;
+        else return false;
     }
 }

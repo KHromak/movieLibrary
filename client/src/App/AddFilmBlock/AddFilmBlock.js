@@ -52,7 +52,6 @@ export default function AddFilmBlock({
             setMessage('Please fill all fields to add movie');
         }
         else if (isWrongYear) {
-            console.log("red")
             setAlertColor(redAlertColor);
             setMessage(messageAlertChooseYear);
         }

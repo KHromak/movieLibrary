@@ -1,6 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import { Modal, Button } from 'react-bootstrap';
+
+
 
 export const TableBlock = ({ films, delFilm, setMessage }) => {
+
+    const [filmId, setFilmId] = useState('');
+    const [filmYear, setFilmYear] = useState('');
+    const [filmTitle, setFilmTitle] = useState('');
+    const [showModal, setShowModal] = useState(false);
+
+    const handleShow = () => setShowModal(true);
+    const handleClose = () => setShowModal(false);
 
     const myCustomTable = {
         position: 'relative',
@@ -26,15 +38,17 @@ export const TableBlock = ({ films, delFilm, setMessage }) => {
                     )}
                 </td>
                 <td>
-                    <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={() => delFilm(film.id)}><span aria-hidden="true">&times;</span>
-            </button> 
-
-                    {/* <div type="button" className="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" onClick={() => delFilm(film.id)}>x</div> */}
+                    <Button variant="outline-danger" onClick={()=>{
+                        handleShow()
+                        setFilmId(film.id)
+                        setFilmTitle(film.title)
+                        setFilmYear(film.year)
+                        }}>x</Button>
                 </td>
             </tr>
         );
     };
-    
+
     return (
         <div className="my-custom-table mt-2 small" style={myCustomTable}>
             <table className="table table-striped mb-0">
@@ -52,11 +66,28 @@ export const TableBlock = ({ films, delFilm, setMessage }) => {
                     {(films && films.length > 0) ? (
                         films.map((film) => renderFilms(film, film.index))
                     ) : (
-                            setMessage('Movies not found')
+                            setMessage('Movies not found, please upload movies')
                         )}
 
                 </tbody>
             </table>
+            <Modal show={showModal} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Deleting movie {filmTitle} ({filmYear})</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Do you really want to delete movie?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                            </Button>
+                    <Button variant="primary" onClick={() => {
+                        delFilm(filmId)
+                        handleClose()
+                    } }>
+                        Delete Movie
+                            </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }

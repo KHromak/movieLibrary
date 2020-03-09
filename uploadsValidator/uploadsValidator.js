@@ -10,8 +10,17 @@ module.exports = (file) => {
             stars: []
         }
     };
-
+    let films = [];
     let film = initFilm();
+    let findDuplicateFilm = films => {
+        for (let i = 0; i<films.length; i++){
+            for (let j = 0; j<films.length; j++){
+                if (films[i].title === films[j].title){
+                    return (films[i].year != films[j].year)
+                }
+            }
+        }
+    }
 
     for (let line of lines) {
         if ((line == '') && ((film.title === '') || (film.year === '') && (film.format === '') && (film.stars.length === 0))) {
@@ -46,18 +55,18 @@ module.exports = (file) => {
                 return false;
             }
         }
-
         else if ((line == '') && ((film.title != '') && (film.year = !'') && (film.format = !'') && (film.stars.length != 0))) {
             if (film.title) {
+                films.push(film);
                 film = initFilm();
+                findDuplicateFilm(films);
+                console.log(findDuplicateFilm(films), 'findDuplicateFilm(films)')
             }
         }
-
         else {
             return false;
         }
     }
-    console.log('true file');
     return true;
 }
 

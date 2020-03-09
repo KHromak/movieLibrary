@@ -27,6 +27,7 @@ export default function UploadFilmBlock({ message, setMessage, getFilms, setAler
             setAlertColor(redAlertColor);
             setMessage('Please use file-type .txt for upload');
             setFile('');
+            setFileName('');
         }
     }
 
@@ -45,7 +46,7 @@ export default function UploadFilmBlock({ message, setMessage, getFilms, setAler
             });
             setAlertColor(res.data.color);
             getFilms(res.data.msg, pageSizeParamsObject);
-            setFile('');
+           
             
             return fileName;
 
@@ -53,6 +54,7 @@ export default function UploadFilmBlock({ message, setMessage, getFilms, setAler
             setAlertColor(redAlertColor);
             setMessage('Upload file error');
             setFile('');
+            setFileName('');
         }
     }
 
