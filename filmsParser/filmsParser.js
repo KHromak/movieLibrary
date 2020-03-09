@@ -1,7 +1,7 @@
 module.exports = (file) => {
-
   let text = file.data.toString();
   let lines = text.split(/\r?\n/);
+
   let initFilm = () => {
     return {
       title: '',

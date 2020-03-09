@@ -75,7 +75,7 @@ export default function AddFilmBlock({
 
 
         if (title) {
-            if (star || year) {
+            if (star || year || format) {
                 setAlertColor(redAlertColor);
                 setMessage(messageAlertFillOneField);
             }
@@ -95,7 +95,8 @@ export default function AddFilmBlock({
                 setMessage(messageSearchActor);
                 findFilmByStar(star);
             }
-        } else if (year) {
+        } 
+        else if (year) {
             if (title || star || format) {
                 setAlertColor(redAlertColor);
                 setMessage(messageAlertFillOneField);

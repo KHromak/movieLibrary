@@ -10,22 +10,18 @@ module.exports = (file) => {
             stars: []
         }
     };
+
+    let isFilmFilled = film => {
+        return film.title && film.year && film.format && film.stars.length;
+    };
+    
     let films = [];
     let film = initFilm();
-    let findDuplicateFilm = films => {
-        for (let i = 0; i<films.length; i++){
-            for (let j = 0; j<films.length; j++){
-                if (films[i].title === films[j].title){
-                    return (films[i].year != films[j].year)
-                }
-            }
-        }
-    }
 
     for (let line of lines) {
-        if ((line == '') && ((film.title === '') || (film.year === '') && (film.format === '') && (film.stars.length === 0))) {
+        if (line === '' && !isFilmFilled(film)) {
             continue;
-        } 
+        }
         else if (line.startsWith('Title: ')) {
             if (film.title === '') {
                 film.title = line.substring(7);
@@ -55,13 +51,14 @@ module.exports = (file) => {
                 return false;
             }
         }
-        else if ((line == '') && ((film.title != '') && (film.year = !'') && (film.format = !'') && (film.stars.length != 0))) {
-            if (film.title) {
+        else if (line === '' && isFilmFilled(film)) {           
+            let exists = films.find(x => x.title === film.title && x.year === film.year)
+            if (!exists) {
                 films.push(film);
                 film = initFilm();
-                findDuplicateFilm(films);
-                console.log(findDuplicateFilm(films), 'findDuplicateFilm(films)')
-            }
+            } else {
+                return false;
+            }           
         }
         else {
             return false;

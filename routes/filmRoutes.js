@@ -51,8 +51,20 @@ module.exports = (app) => {
 
   // Add film
   app.post(`/api/films`, async (req, res) => {
-    let films = await Films.create(req.body);
-    return res.status(201).json({ msg: 'Movie added to the database' })
+    let film = req.body;
+
+    let findedFilms = await Films.find({
+      title: film.title,
+      year: film.year
+    });
+
+    if (findedFilms.length > 0) {
+      return res.status(400).json({ msg: 'Movie already exists', color: redAlertColor });
+    }
+    
+    let films = await Films.create(film);
+    
+    return res.status(201).json({ msg: 'Movie added to the database', color: blueAlertColor })
   });
 
   // Delete
@@ -101,9 +113,6 @@ module.exports = (app) => {
     res.status(200).send(result);
   });
 
-
-
-
   //Upload
   app.post(`/api/upload`, async (req, res) => {
     if (!req.files) {
@@ -111,20 +120,35 @@ module.exports = (app) => {
     }
     
     let isValid = uploadsValidator(req.files.file);
+
     if (isValid){
       try {
         let file = req.files.file;
         let films = filmsParser(file);
+        
+        for (let film of films) {
+
+          let findedFilms = await Films.find({
+            title: film.title,
+            year: film.year
+          });
+
+          if (findedFilms.length > 0) {
+            return res.status(400).json({ msg: 'File have duplicated data', color:  redAlertColor });
+          }
+        }
+
         for (let film of films) {
           await Films.create(film);
         }
-        return res.status(200).json({ msg: 'Library uploaded on server' , color:  blueAlertColor})
+        
+        return res.status(200).json({ msg: 'Library uploaded on server' , color:  blueAlertColor});
       } catch (error) {
-        return res.status(400).json({ msg: 'File upload error (400)', color:  redAlertColor })
+        return res.status(400).json({ msg: 'File upload error (400)', color:  redAlertColor });
       }
     }
     else {
-      return res.status(400).json({ msg: 'Please upload valid file', color:  redAlertColor})
+      return res.status(400).json({ msg: 'Please upload valid file', color:  redAlertColor});
     }
   });
 }
